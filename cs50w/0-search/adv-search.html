@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <title>Advanced Search</title>
+</head>
+<body id="adv-search">
+    <div class="div-adv-search">
+        <img class="nav-logo" src="goole-logo.png" alt="Google logo">        
+        <ul id="nav-bar">
+            <li class="nav-item-adv"><a href="index.html">Google Search</a></li>
+       </ul> 
+    </div>
+    <!-- title -->
+    <div id="header-title" class="div-adv-search">
+        <label class="title-words">Advanced Search</label>
+    </div>
+    <div id="line"></div>
+    <!-- Here's start the form after nav bar -->
+    <div id="container">
+        <form action="https://www.google.com/search">
+            <div id="form conta">
+                <span class="subtitle-container">Find pages with...</span>
+                <input type="hidden">
+            </div>
+            <!-- form structure -->
+            <div class="form allwords">
+                <label id="allwords" class="lbform" for="allwords">all these words:</label>
+                <input class="inpt" type="text" name="as_q">
+            </div>
+            <div class="form exact">
+                <label id="exact" class="lbform" for="allwords">this exact word or phrase:</label>
+                <input class="inpt" type="text" name="as_epq">
+            </div>
+            <div class="form any">
+                <label id="any" class="lbform" for="allwords">any of these words:</label>
+                <input class="inpt" type="text" name="as_oq" >
+            </div>
+            <div class="form none">
+                <label id="none" class="lbform" for="allwords">none of these words:</label>
+                <input class="inpt" type="text" name="as_eq" >
+            </div>
+            <!-- submit button -->
+            <div id="form-submit">
+                <input id="adv-btn" value="Advanced Search" type="submit">
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
