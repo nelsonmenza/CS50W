@@ -1,2 +1,6 @@
 *Pipfile
 *Pipfile.lock
+# Python
+*.pyc
+*~
+__pycache__
