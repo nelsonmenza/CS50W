@@ -1,16 +1,18 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+
     <h2>Active Listings</h2>
-    {% for listing in listings %}
-        <img src="{{listing.img.url}}" alt="">
-        <ul>
-            <li>{{listing.title}}</li>
-            <li>User:{{listing.username}}</li>
-            <li>Category:{{listing.categories}}</li>
-            <li>Current bid:{{listing.bid}}</li>
-            <li>:Active:{{listing.active|yesno}}</li>
-        </ul>
+        {% for listing in listings %}
+            <h3>{{listing.title}}</h3>
+
+            <img src="{{listing.img.url}}" alt="{{listing.title}}" width="300" >
+            <ul>
+                <li>User:{{listing.username}}</li>
+                <li>Category:{{listing.categories}}</li>
+                <li>Price:${{listing.bid}}</li>
+                <li>Created: {{Listing.created_date}}</li>
+            </ul>
 
     {% endfor %}
 
