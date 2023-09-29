@@ -83,3 +83,9 @@ def create_listing(request):
     else:
         form = ListingForm()
     return render(request, 'auctions/create_listing.html', {'form': form})
+
+
+def categories_listing(request):
+    # Listing.objects.all().filter(categories='Toys and Games')
+    categories = [c[0] for c in Listing.categories.field.choices]
+    return render(request, "auctions/categories.html", {"categories": categories})
