@@ -86,6 +86,12 @@ def create_listing(request):
 
 
 def categories_listing(request):
-    # Listing.objects.all().filter(categories='Toys and Games')
     categories = [c[0] for c in Listing.categories.field.choices]
     return render(request, "auctions/categories.html", {"categories": categories})
+
+
+def categories_list(request, categories):
+    categories_lst = Listing.objects.all().filter(categories=categories)
+    print(categories_lst)
+    context = {"categories_lst": categories_lst}
+    return render(request, "auctions/categories_list.html", context)

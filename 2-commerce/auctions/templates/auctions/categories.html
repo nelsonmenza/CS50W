@@ -4,10 +4,11 @@
 
     <h2>Categories</h2>
         {% for category in categories %}
-            <ul>
-                <li>{{category}}</li>
-            </ul>
-
+    </form>
+    <div>
+        <a href="{% url "categories_list" categories=category %}">{{category}}</a>
+    </div>
+    </form>
     {% endfor %}
 
 {% endblock %}

@@ -23,7 +23,7 @@ class Listing(models.Model):
 
     class Categories(models.TextChoices):
         CLOTHING = 'Apparel and Clothing'
-        TOYS = 'Toys and Games'
+        TOYS = 'Toys'
         ELECTRONICS = 'Electronics and Gadgets'
         HOME = 'Home and Living'
         SPORTS = 'Sports and Outdoor'
