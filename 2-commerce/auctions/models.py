@@ -22,16 +22,17 @@ class Listing(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
 
     class Categories(models.TextChoices):
-        CLOTHING = 'Apparel and Clothing'
+        CLOTHING = 'Clothing'
         TOYS = 'Toys'
-        ELECTRONICS = 'Electronics and Gadgets'
-        HOME = 'Home and Living'
-        SPORTS = 'Sports and Outdoor'
-        BEAUTY = 'Beauty and Personal Care'
-        BOOKS = 'Books and Media'
-        FOOD = 'Food and Grocery'
-        AUTOMOTIVE = 'Automotive and Parts'
-        HEALTH = 'Health and Wellness'
+        GAMES = 'Games'
+        ELECTRONICS = 'Electronics'
+        HOME = 'Home'
+        SPORTS = 'Sports'
+        BEAUTY = 'Beauty'
+        BOOKS = 'Books'
+        GROCERY = 'Grocery'
+        AUTOMOTIVE = 'Automotive'
+        HEALTH = 'Health'
 
     categories = models.CharField(max_length=100, choices=Categories.choices)
 
