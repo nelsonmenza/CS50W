@@ -13,7 +13,9 @@ class Listing(models.Model):
     description = models.TextField(max_length=1000)
     username = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bid = models.FloatField(validators=[MinValueValidator(0.5)])
+    bid = models.DecimalField(max_digits=6, decimal_places=2, validators=[
+                              MinValueValidator(0.50)])
+
     web_page = models.URLField(max_length=200, blank=True)
     img = models.ImageField(null=True, blank=True, upload_to='media/')
     active = models.BooleanField(default=True)
