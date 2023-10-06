@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ListingForm
 from .models import Listing, User
@@ -92,6 +92,11 @@ def categories_listing(request):
 
 def categories_list(request, categories):
     categories_lst = Listing.objects.all().filter(categories=categories)
-    print(categories_lst)
     context = {"categories_lst": categories_lst}
     return render(request, "auctions/categories_list.html", context)
+
+
+def detail_listing(request, pk):
+    listing = get_object_or_404(Listing, pk=pk)
+    print(listing)
+    return render(request, "auctions/detail.html", {"listing": listing})

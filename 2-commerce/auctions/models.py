@@ -39,3 +39,12 @@ class Listing(models.Model):
     class Meta:
         verbose_name = 'Listing'
         verbose_name_plural = 'Listings'
+
+    def __str__(self):
+        return self.title
+
+
+class Message(models.Model):
+    username = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    message = models.TextField(max_length=350)
