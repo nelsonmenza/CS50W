@@ -44,7 +44,16 @@ class Listing(models.Model):
         return self.title
 
 
-class Message(models.Model):
+class Comment(models.Model):
     username = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    message = models.TextField(max_length=350)
+    body = models.TextField(max_length=350)
+    created_date = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(
+        Listing, on_delete=models.CASCADE, related_name='comments')
+
+    class Meta:
+        ordering = ['created_date']
+
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.body, self.username)
