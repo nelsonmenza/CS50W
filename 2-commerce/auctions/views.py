@@ -4,13 +4,14 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ListingForm
-from .models import Listing, User
+from .forms import CommentForm, ListingForm
+from .models import Comment, Listing, User
 
 
 def index(request):
     listings = Listing.objects.all()
-    context = {"listings": listings}
+    list_categories = [c[0] for c in Listing.categories.field.choices]
+    context = {"listings": listings, "list_categories": list_categories}
     return render(request, "auctions/index.html", context)
 
 
@@ -76,27 +77,35 @@ def create_listing(request):
             listing.username = request.user
             listing.save()
             return redirect('index')
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"Error in {field}: {error}")
     else:
         form = ListingForm()
     return render(request, 'auctions/create_listing.html', {'form': form})
 
 
-def categories_listing(request):
-    categories = [c[0] for c in Listing.categories.field.choices]
-    return render(request, "auctions/categories.html", {"categories": categories})
-
-
 def categories_list(request, categories):
     categories_lst = Listing.objects.all().filter(categories=categories)
-    context = {"categories_lst": categories_lst}
+    list_categories = [c[0] for c in Listing.categories.field.choices]
+    context = {"categories_lst": categories_lst,
+               "categories": categories, "list_categories": list_categories}
     return render(request, "auctions/categories_list.html", context)
 
 
 def detail_listing(request, pk):
     listing = get_object_or_404(Listing, pk=pk)
-    print(listing)
-    return render(request, "auctions/detail.html", {"listing": listing})
+    comments = Comment.objects.all().filter(post_id=pk)
+    new_comment = None    # Comment posted
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.username = request.user
+            new_comment.post = listing
+            new_comment.save()
+            return redirect('show:detail', kwargs={'show': instance.pk})
+    else:
+        form = CommentForm()
+    list_categories = [c[0] for c in Listing.categories.field.choices]
+    context = {"listing": listing, 'form': form,
+               "list_categories": list_categories, "comments": comments}
+    return render(request, "auctions/detail.html", context)

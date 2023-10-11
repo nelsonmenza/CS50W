@@ -4,3 +4,30 @@ body {
 .list{
     display: inline-block;
 }
+
+textarea {
+    font-size: 16px;
+    font-family: sans-serif;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 5px;
+    resize: none;
+    width: 100%;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-control {
+    padding: 10px;
+    height: auto;
+    min-height: 100px;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+  }
+  

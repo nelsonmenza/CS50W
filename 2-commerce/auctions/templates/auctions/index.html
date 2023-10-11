@@ -1,20 +1,37 @@
 {% extends "auctions/layout.html" %}
+{% load static %}
 
 {% block body %}
-        <h2>Active Listings</h2>
-            {% for listing in listings %}
-                <a href="{{listing.get_absolute_url}}">
+    <h2>Active Listings</h2>
+       
+    {% for listing in listings %}
 
-                    <h3>{{listing.title}}</h3>
+    <div class="container-fluid">
+        <a href="{% url "detail" listing.pk %}" class="card mb-3">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="{{listing.img.url}}" alt="{{listing.title}}" class="img-fluid img-thumbnail"  width="200">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h3 class="card-title">{{listing.title}}</h3>
+                        <ul class="list-unstyled">
+                            <li><strong>User:</strong> {{listing.username}}</li>
+                            <li><strong>Category:</strong> {{listing.categories}}</li>
+                            <li><strong>Price:</strong> <span class="text-danger">$ {{listing.bid}}</span></li>
+                            <li><strong>Created:</strong> {{listing.created_date}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
 
-                    <img src="{{listing.img.url}}" alt="{{listing.title}}" width="200" >
-                    <ul class='list'>
-                        <li>User:{{listing.username}}</li>
-                        <li>Category:{{listing.categories}}</li>
-                        <li>Price:${{listing.bid}}</li>
-                        <li>Created: {{listing.created_date}}</li>
-                    </ul>
-                </a>
+    <!-- Agrega los enlaces a los archivos JavaScript de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
     {% endfor %}
 
 {% endblock %}

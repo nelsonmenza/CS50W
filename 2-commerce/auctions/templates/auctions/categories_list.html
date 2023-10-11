@@ -2,10 +2,36 @@
 {% load static %}
 
 {% block body %}
-    {% for category_list in categories_lst %}
-        <ul>
-            <li>{{category_list.title}}</li>
-        </ul>
+    <h2>Active {{categories}} Listings</h2>
+       
+    {% for category_lst in categories_lst %}
+
+    <div class="container-fluid">
+        <a href="{% url "detail" category_lst.pk %}" class="card mb-3">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="{{category_lst.img.url}}" alt="{{category_lst.title}}" class="img-fluid img-thumbnail"  width="200">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h3 class="card-title">{{category_lst.title}}</h3>
+                        <ul class="list-unstyled">
+                            <li><strong>User:</strong> {{category_lst.username}}</li>
+                            <li><strong>Category:</strong> {{category_lst.categories}}</li>
+                            <li><strong>Price:</strong> <span class="text-danger">$ {{category_lst.bid}}</span></li>
+                            <li><strong>Created:</strong> {{category_lst.created_date}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Agrega los enlaces a los archivos JavaScript de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
     {% endfor %}
 
 {% endblock %}
