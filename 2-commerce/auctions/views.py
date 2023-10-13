@@ -96,7 +96,6 @@ def categories_list(request, categories):
 class DetailListingView(View):
     def get(self, request, pk):
         listing = get_object_or_404(Listing, pk=pk)
-        print(listing)
         comments = Comment.objects.filter(post_id=pk)
         form = CommentForm()
         list_categories = [c[0] for c in Listing.categories.field.choices]
@@ -138,22 +137,18 @@ class DetailListingView(View):
 
 
 def add_to_watchlist(request, pk):
-     watchlist_lst = Listing.objects.all().filter(
-        categories=categories).filter(active=True)
-    watchlist_lst = WatchlistItem.objects.all().filter(listing_id=pk)
+    listing = get_object_or_404(Listing, pk=pk)
     if request.method == "POST":
-        watchlist = WatchlistItem.objects.create(
+        WatchlistItem.objects.get_or_create(
             listing=listing, user=request.user)
-        watchlist.save()
-    # Redirect to the listing detail page
-        return redirect('watchlist', pk=pk)
-    else:
-        watchlist = WatchlistItem()
-        return render(request, "auctions/watchlist_listing.html", {"watchlist": watchlist})
+        return redirect('detail', pk=pk)
 
 
 def remove_from_watchlist(request, pk):
-    if request.user.is_authenticated:
-        WatchlistItem.objects.filter(
-            user=request.user, listing_id=pk).delete()
+    listing = get_object_or_404(Listing, pk=pk)
+    print(listing.pk)
+
+    if request.method == "POST":
+        watchlist = WatchlistItem.objects.filter(
+            user_id=request.user, listing_id=listing.pk).delete()
     return redirect('detail', pk=pk)
