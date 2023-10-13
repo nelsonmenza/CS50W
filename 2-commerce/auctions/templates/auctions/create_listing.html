@@ -37,17 +37,5 @@
     {% else %}
         Don't have an account? <a href="{% url 'register' %}">Register here.</a>
     {% endif %}
-        {% if form.errors %}
-    <div class="alert alert-danger">
-        <strong>Error:</strong> Please correct the following errors.
-        <ul>
-            {% for field, errors in form.errors.items %}
-                <li>{{ field }}:
-                    {% for error in errors %}{{ error }}{% if not forloop.last %}, {% endif %}{% endfor %}
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endif %}
 
 {% endblock %}

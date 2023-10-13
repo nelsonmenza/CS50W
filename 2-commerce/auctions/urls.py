@@ -11,7 +11,9 @@ urlpatterns = [
     path("categories/<str:categories>/",
          views.categories_list, name="categories_list"),
     path("detail/<int:pk>/",
-         views.detail_listing, name="detail"),
+         views.DetailListingView.as_view(), name="detail"),
+    path("watchlist/<int:pk>/",
+         views.add_to_watchlist, name="watchlist"),
 
 
 

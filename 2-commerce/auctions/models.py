@@ -13,8 +13,8 @@ class Listing(models.Model):
     description = models.TextField(max_length=1000)
     username = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bid = models.DecimalField(max_digits=6, decimal_places=2, validators=[
-                              MinValueValidator(0.50)])
+    starting_bid = models.DecimalField(max_digits=6, decimal_places=2, validators=[
+        MinValueValidator(0.50)])
 
     web_page = models.URLField(max_length=200, blank=True)
     img = models.ImageField(null=True, blank=True, upload_to='media/')
@@ -41,7 +41,7 @@ class Listing(models.Model):
         verbose_name_plural = 'Listings'
 
     def __str__(self):
-        return self.title
+        return 'Listing  {} by {}'.format(self.title, self.username)
 
 
 class Comment(models.Model):
@@ -56,4 +56,24 @@ class Comment(models.Model):
         ordering = ['created_date']
 
     def __str__(self):
-        return 'Comment {} by {}'.format(self.body, self.username)
+        return 'Comment in listing {} by {}'.format(self.post, self.username)
+
+
+class Bid(models.Model):
+    amount = models.DecimalField(max_digits=6, decimal_places=2, validators=[
+        MinValueValidator(0.50)])
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post_listing_bid = models.ForeignKey(
+        Listing, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Bid'
+
+    def __str__(self):
+        return 'Bid in listing {} by {}'.format(self.post_listing_bid, self.user)
+
+
+class WatchlistItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)

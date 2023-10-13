@@ -1,25 +1,26 @@
 {% extends "auctions/layout.html" %}
 {% load static %}
 
+
 {% block body %}
-    <h2>Active {{categories}} Listings</h2>
+    <h2>Active Watchlist</h2>
        
-    {% for category_lst in categories_lst %}
+    {% for category_lst in watchlist %}
 
     <div class="container-fluid">
-        <a href="{% url "detail" category_lst.pk %}" class="card mb-3">
+        <a href="{% url "detail" category_lst.listing_id %}" class="card mb-3">
             <div class="row no-gutters">
                 <div class="col-md-4">
-                    <img src="{{category_lst.img.url}}" alt="{{category_lst.title}}" class="img-fluid img-thumbnail"  width="200">
+                    <img src="{{category_lst.listing_id.img.url}}" alt="{{category_lst.listing_id.title}}" class="img-fluid img-thumbnail"  width="200">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h3 class="card-title">{{category_lst.title}}</h3>
+                        <h3 class="card-title">{{category_lst.listing_id.title}}</h3>
                         <ul class="list-unstyled">
-                            <li><strong>User:</strong> {{category_lst.username}}</li>
-                            <li><strong>Category:</strong> {{category_lst.categories}}</li>
-                            <li><strong>Price:</strong> <span class="text-danger">$ {{category_lst.starting_bid}}</span></li>
-                            <li><strong>Created:</strong> {{category_lst.created_date}}</li>
+                            <li><strong>User:</strong> {{category_lst.listing_id.username}}</li>
+                            <li><strong>Category:</strong> {{category_lst.listing_id.categories}}</li>
+                            <li><strong>Price:</strong> <span class="text-danger">$ {{category_lst.listitng_id.starting_bid}}</span></li>
+                            <li><strong>Created:</strong> {{category_lst.listing_id.created_date}}</li>
                         </ul>
                     </div>
                 </div>
