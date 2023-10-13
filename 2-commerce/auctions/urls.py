@@ -13,9 +13,10 @@ urlpatterns = [
     path("detail/<int:pk>/",
          views.DetailListingView.as_view(), name="detail"),
     path("watchlist/<int:pk>/",
-         views.add_to_watchlist, name="watchlist"),
+         views.add_to_watchlist, name="watchlist_add"),
     path('remove_from_watchlist/<int:pk>/',
          views.remove_from_watchlist, name='remove_from_watchlist'),
+    path("watchlist", views.get_watchlist, name="watchlist"),
 
 
 

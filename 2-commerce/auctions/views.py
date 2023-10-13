@@ -136,12 +136,14 @@ class DetailListingView(View):
         return render(request, "auctions/detail.html", context)
 
 
+#  Watchlist funcionality
+
 def add_to_watchlist(request, pk):
     listing = get_object_or_404(Listing, pk=pk)
     if request.method == "POST":
         WatchlistItem.objects.get_or_create(
             listing=listing, user=request.user)
-        return redirect('detail', pk=pk)
+        return redirect('watchlist')
 
 
 def remove_from_watchlist(request, pk):
@@ -149,6 +151,13 @@ def remove_from_watchlist(request, pk):
     print(listing.pk)
 
     if request.method == "POST":
-        watchlist = WatchlistItem.objects.filter(
+        WatchlistItem.objects.filter(
             user_id=request.user, listing_id=listing.pk).delete()
     return redirect('detail', pk=pk)
+
+
+def get_watchlist(request):
+    listings = WatchlistItem.objects.all().filter(user_id=request.user)
+    list_categories = [c[0] for c in Listing.categories.field.choices]
+    context = {"listings": listings, "list_categories": list_categories}
+    return render(request, "auctions/watchlist_listing.html", context)
