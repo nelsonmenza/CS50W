@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.db.models import Max
 
 
 class User(AbstractUser):
@@ -35,6 +36,19 @@ class Listing(models.Model):
         HEALTH = 'Health'
 
     categories = models.CharField(max_length=100, choices=Categories.choices)
+
+    winner = models.ForeignKey(User, null=True, blank=True,
+                               related_name="won_listings", on_delete=models.SET_NULL)
+
+    def get_highest_bid_amount(self):
+        """
+        Get the highest bid amount for this listing, if it exists.
+
+        Returns:
+            Decimal: The highest bid amount or None if no bids exist.
+        """
+        highest_bid = self.bid_set.aggregate(Max('amount'))['amount__max']
+        return highest_bid
 
     class Meta:
         verbose_name = 'Listing'

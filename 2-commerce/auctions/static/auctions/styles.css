@@ -13,3 +13,9 @@ body {
 .watchlist-on{
     margin-right: 0.5rem;
 }
+
+.message {
+    font-size: 18px;
+    color: rgb(158, 20, 20); /* Change the color to your preferred style */
+    /* Add other CSS styles as needed */
+}
