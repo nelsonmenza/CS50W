@@ -103,7 +103,8 @@ def create_listing(request):
             return redirect('index')
     else:
         form = ListingForm()
-    return render(request, 'auctions/create_listing.html', {'form': form, 'list_categories': list_categories})
+    context = {'form': form, 'list_categories': list_categories}
+    return render(request, 'auctions/create_listing.html', context)
 
 # View for listing categories
 
