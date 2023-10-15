@@ -88,12 +88,13 @@ def register(request):
 # View for creating a new listing
 
 
-@login_required
 def create_listing(request):
     """
     Create a new listing.
     """
-    list_categories = [c[0] for c in Listing.categories.field.choices]
+    list_categories = [
+        c[0] for c in Listing.Categories.choices]  # Use .Categories.choices to access choices
+
     if request.method == 'POST':
         form = ListingForm(request.POST, request.FILES)
         if form.is_valid():
@@ -101,8 +102,10 @@ def create_listing(request):
             listing.username = request.user
             listing.save()
             return redirect('index')
+
     else:
         form = ListingForm()
+
     context = {'form': form, 'list_categories': list_categories}
     return render(request, 'auctions/create_listing.html', context)
 
