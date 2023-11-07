@@ -1,5 +1,3 @@
-I see. I apologize for the confusion. Here's the corrected description for the "2-commerce" project without mentioning "sell and buy" functionality:
-
 # Harvard CS50’s Web Programming with Python and JavaScript Projects
 
 ## Installation
