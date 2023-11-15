@@ -32,6 +32,7 @@ function compose_email() {
   document.querySelector("#compose-body").value = "";
 }
 
+// Request inbox, sent and archived
 function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector("#emails-view").style.display = "block";
@@ -44,58 +45,49 @@ function load_mailbox(mailbox) {
 
   // Show all the emails
   const inbox = document.getElementById("emails-view");
-  let sender = document.createElement("p");
-  let receivedUser = document.createElement("p");
+  let senderOrRecipients = document.createElement("p"); //Sender or recipients
   let subject = document.createElement("p");
-  let receivedDate = document.createElement("p"); // GET method
+  let receivedDate = document.createElement("p");
   let email = document.createElement("div");
 
+  // API to get all the emails
   fetch(`/emails/${mailbox}`)
     .then((response) => response.json())
     .then((emails) => {
       // Print emails
       console.log(emails);
-      if (mailbox === "inbox") {
-        emails.forEach((element) => {
-          email.style.border = "solid 2px black";
-          sender.textContent = element.sender;
-          subject.textContent = element.subject;
-          receivedDate.textContent = element.timestamp;
-          email.style.display = "flex";
-          email.style.justifyContent = "space-between";
-          email.style.marginLeft = "auto";
-          email.style.height = "30px";
 
-          sender.style.fontWeight = "bold";
-          receivedDate.style.fontWeight = "600";
-          receivedDate.style.color = "#c5baba";
+      emails.forEach((element) => {
+        if (mailbox === "inbox") {
+          senderOrRecipients.innerText = element.sender;
+        } else {
+          senderOrRecipients.innerText = element.recipients;
+        }
+        subject.innerText = element.subject;
+        receivedDate.innerText = element.timestamp;
 
-          email.appendChild(sender);
-          email.appendChild(subject);
-          email.appendChild(receivedDate);
-          inbox.appendChild(email);
-        });
-      } else {
-        emails.forEach((element) => {
-          email.style.border = "solid 2px black";
-          receivedUser.textContent = element.recipients;
-          console.log(receivedUser);
-          subject.textContent = element.subject;
-          receivedDate.textContent = element.timestamp;
-          email.style.display = "flex";
-          email.style.justifyContent = "space-between";
-          email.style.marginLeft = "auto";
-          email.style.height = "30px";
+        // Style for each element
+        email.style.border = "solid 2px black";
+        email.style.display = "flex";
+        email.style.justifyContent = "space-between";
+        email.style.marginLeft = "auto";
+        email.style.height = "30px";
 
-          receivedDate.style.fontWeight = "600";
-          receivedDate.style.color = "#c5baba";
+        senderOrRecipients.style.fontWeight = "bold";
+        receivedDate.style.fontWeight = "600";
+        receivedDate.style.color = "#c5baba";
 
-          email.appendChild(receivedUser);
-          email.appendChild(subject);
-          email.appendChild(receivedDate);
-          inbox.appendChild(email);
-        });
-      }
+        email.appendChild(senderOrRecipients);
+        email.appendChild(subject);
+        email.appendChild(receivedDate);
+        inbox.appendChild(email);
+
+        // Reset elements
+        senderOrRecipients = document.createElement("p"); //Sender or recipients
+        subject = document.createElement("p");
+        receivedDate = document.createElement("p");
+        email = document.createElement("div");
+      });
     });
 }
 
@@ -123,11 +115,13 @@ function sendEmail($event) {
     });
 }
 
-function testing() {
-  fetch(`/emails/${mailbox}`)
+function load_mail(email_id) {
+  fetch(`/emails/${email_id}`)
     .then((response) => response.json())
-    .then((emails) => {
-      // Print emails
-      console.log(emails);
+    .then((email) => {
+      // Print email
+      console.log(email);
+
+      // ... do something else with email ...
     });
 }
