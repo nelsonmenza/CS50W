@@ -19,6 +19,7 @@ def index(request):
     context = {"listings": listings, "list_categories": list_categories}
     return render(request, "auctions/index.html", context)
 
+
 # View for user login
 
 
@@ -37,11 +38,14 @@ def login_view(request):
             login(request, user)
             return redirect("index")
         else:
-            return render(request, "auctions/login.html", {
-                "message": "Invalid username and/or password."
-            })
+            return render(
+                request,
+                "auctions/login.html",
+                {"message": "Invalid username and/or password."},
+            )
     else:
         return render(request, "auctions/login.html")
+
 
 # View for user logout
 
@@ -52,6 +56,7 @@ def logout_view(request):
     """
     logout(request)
     return redirect("index")
+
 
 # View for user registration
 
@@ -68,22 +73,25 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "auctions/register.html", {
-                "message": "Passwords must match."
-            })
+            return render(
+                request, "auctions/register.html", {"message": "Passwords must match."}
+            )
 
         # Attempt to create a new user
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
         except IntegrityError:
-            return render(request, "auctions/register.html", {
-                "message": "Username already taken."
-            })
+            return render(
+                request,
+                "auctions/register.html",
+                {"message": "Username already taken."},
+            )
         login(request, user)
         return redirect("index")
     else:
         return render(request, "auctions/register.html")
+
 
 # View for creating a new listing
 
@@ -92,22 +100,23 @@ def create_listing(request):
     """
     Create a new listing.
     """
-    list_categories = [
-        c[0] for c in Listing.Categories.choices]  # Use .Categories.choices to access choices
+    # Use .Categories.choices to access choices
+    list_categories = [c[0] for c in Listing.Categories.choices]
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ListingForm(request.POST, request.FILES)
         if form.is_valid():
             listing = form.save(commit=False)
             listing.username = request.user
             listing.save()
-            return redirect('index')
+            return redirect("index")
 
     else:
         form = ListingForm()
 
-    context = {'form': form, 'list_categories': list_categories}
-    return render(request, 'auctions/create_listing.html', context)
+    context = {"form": form, "list_categories": list_categories}
+    return render(request, "auctions/create_listing.html", context)
+
 
 # View for listing categories
 
@@ -116,12 +125,17 @@ def categories_list(request, categories):
     """
     List items by a specific category.
     """
-    categories_lst = Listing.objects.all().filter(
-        categories=categories).filter(active=True)
+    categories_lst = (
+        Listing.objects.all().filter(categories=categories).filter(active=True)
+    )
     list_categories = [c[0] for c in Listing.categories.field.choices]
-    context = {"categories_lst": categories_lst,
-               "categories": categories, "list_categories": list_categories}
+    context = {
+        "categories_lst": categories_lst,
+        "categories": categories,
+        "list_categories": list_categories,
+    }
     return render(request, "auctions/categories_list.html", context)
+
 
 # View for listing details and comments
 
@@ -137,8 +151,14 @@ class DetailListingView(View):
         comments = Comment.objects.filter(post_id=pk)
         form = CommentForm()
         list_categories = [c[0] for c in Listing.categories.field.choices]
-        context = {"listing": listing, 'form': form,
-                   "list_categories": list_categories, "comments": comments}
+        message = "Congratulations! You won this auction."
+        context = {
+            "listing": listing,
+            "form": form,
+            "list_categories": list_categories,
+            "comments": comments,
+            "message": message,
+        }
         return render(request, "auctions/detail.html", context)
 
     @method_decorator(login_required)
@@ -156,34 +176,36 @@ class DetailListingView(View):
             new_comment.username = request.user
             new_comment.post = listing
             new_comment.save()
-            return redirect('detail', pk=listing.pk)
+            return redirect("detail", pk=listing.pk)
 
         if bid_form.is_valid():  # Handle the bid form's validation
-            bid_amount = bid_form.cleaned_data['amount']
+            bid_amount = bid_form.cleaned_data["amount"]
 
             if bid_amount > listing.starting_bid:
                 # Create a new Bid object and associate it with the listing
                 new_bid = Bid.objects.create(
-                    post_listing_bid=listing, user=request.user, amount=bid_amount)
+                    post_listing_bid=listing, user=request.user, amount=bid_amount
+                )
 
                 new_bid.save()
                 listing.starting_bid = new_bid.amount
                 listing.save()
                 message = "The bid was accepted, Good luck. "
-                return redirect('detail', pk=listing.pk)
+                return redirect("detail", pk=listing.pk)
             else:
                 message = "The bid was denied, try another amount. "
 
         list_categories = [c[0] for c in Listing.categories.field.choices]
         context = {
             "listing": listing,
-            'form': form,
-            'bid_form': bid_form,
+            "form": form,
+            "bid_form": bid_form,
             "list_categories": list_categories,
             "comments": comments,
-            "message": message
+            "message": message,
         }
         return render(request, "auctions/detail.html", context)
+
 
 # Watchlist functionality
 
@@ -194,9 +216,8 @@ def add_to_watchlist(request, pk):
     """
     listing = get_object_or_404(Listing, pk=pk)
     if request.method == "POST":
-        WatchlistItem.objects.get_or_create(
-            listing=listing, user=request.user)
-        return redirect('watchlist')
+        WatchlistItem.objects.get_or_create(listing=listing, user=request.user)
+        return redirect("watchlist")
 
 
 def remove_from_watchlist(request, pk):
@@ -206,8 +227,9 @@ def remove_from_watchlist(request, pk):
     listing = get_object_or_404(Listing, pk=pk)
     if request.method == "POST":
         WatchlistItem.objects.filter(
-            user_id=request.user, listing_id=listing.pk).delete()
-    return redirect('detail', pk=pk)
+            user_id=request.user, listing_id=listing.pk
+        ).delete()
+    return redirect("detail", pk=pk)
 
 
 def get_watchlist(request):
@@ -219,31 +241,28 @@ def get_watchlist(request):
     context = {"listings": listings, "list_categories": list_categories}
     return render(request, "auctions/watchlist_listing.html", context)
 
+
 # Close auctions functionality
 
 
 @login_required
 def close_auction(request, pk):
     listing = get_object_or_404(Listing, pk=pk)
-    bid = get_object_or_404(Bid, post_listing_bid=pk,
-                            amount=listing.starting_bid)
-    print(bid.user)
+    bid = get_object_or_404(Bid, post_listing_bid=pk, amount=listing.starting_bid)
     if request.method == "POST":
         if request.user == listing.username:
             # Check if the user is the owner of the listing
             if listing.active:
                 # Check if the listing is active
                 highest_bid_amount = listing.get_highest_bid_amount()
-                print(highest_bid_amount)
                 if highest_bid_amount is not None:
                     # Set the highest bidder as the winner
                     listing.winner = bid.user
                 listing.active = False
                 listing.save()
-                WatchlistItem.objects.get_or_create(
-                    listing=listing, user=bid.user)
-                return redirect('index')
+                WatchlistItem.objects.get_or_create(listing=listing, user=bid.user)
+                return redirect("index")
             else:
-                return redirect('index')
+                return redirect("index")
     else:
-        return redirect('detail', pk=listing.pk)
+        return redirect("detail", pk=listing.pk)
