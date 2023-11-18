@@ -3,12 +3,15 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .querySelector("#inbox")
     .addEventListener("click", () => load_mailbox("inbox"));
+
   document
     .querySelector("#sent")
     .addEventListener("click", () => load_mailbox("sent"));
+
   document
     .querySelector("#archived")
     .addEventListener("click", () => load_mailbox("archive"));
+
   document.querySelector("#compose").addEventListener("click", compose_email);
 
   // By default, load the inbox
@@ -60,6 +63,9 @@ function load_mailbox(mailbox) {
       emails.forEach((element) => {
         if (mailbox === "inbox") {
           senderOrRecipients.innerText = element.sender;
+          if (element.read === true) {
+            email.style.backgroundColor = "gray";
+          }
         } else {
           senderOrRecipients.innerText = element.recipients;
         }
@@ -76,7 +82,10 @@ function load_mailbox(mailbox) {
         senderOrRecipients.style.fontWeight = "bold";
         receivedDate.style.fontWeight = "600";
         receivedDate.style.color = "#c5baba";
+        email.setAttribute("name", `/emails/${element.id}`);
+        email.classList.add("single-email");
 
+        // Add elements to inbox
         email.appendChild(senderOrRecipients);
         email.appendChild(subject);
         email.appendChild(receivedDate);
@@ -111,17 +120,50 @@ function sendEmail($event) {
     .then((result) => {
       // Print result
       console.log(result);
+      target;
       load_mailbox("sent");
     });
 }
 
-function load_mail(email_id) {
-  fetch(`/emails/${email_id}`)
-    .then((response) => response.json())
-    .then((email) => {
-      // Print email
-      console.log(email);
+// Function to create individual email elements
+function createEmailElement(emailData) {
+  const senderOrRecipients = document.createElement("p");
+  const subject = document.createElement("p");
+  const receivedDate = document.createElement("p");
+  const emailDiv = document.createElement("div");
 
-      // ... do something else with email ...
-    });
+  // Set content and styles for each email element
+  // ...
+
+  // Add event listener to the email element
+  emailDiv.addEventListener("click", () => {
+    // Perform actions when an email is clicked
+    console.log(emailData); // Access email data for the clicked email
+    // Additional logic here...
+  });
+
+  return emailDiv;
 }
+
+// Function to display emails in the mailbox
+function displayEmails(emails, mailbox) {
+  const inbox = document.getElementById("emails-view");
+  inbox.innerHTML = `<h3>${
+    mailbox.charAt(0).toUpperCase() + mailbox.slice(1)
+  }</h3>`;
+
+  emails.forEach((email) => {
+    const emailElement = createEmailElement(email);
+    inbox.appendChild(emailElement);
+  });
+}
+
+// Modify the fetch block in load_mailbox function to use displayEmails
+fetch(`/emails/${mailbox}`)
+  .then((response) => response.json())
+  .then((emails) => {
+    // Display emails in the mailbox
+    displayEmails(emails, mailbox);
+  });
+
+// ... [rest of your code] ...
