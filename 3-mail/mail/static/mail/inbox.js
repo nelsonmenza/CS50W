@@ -16,14 +16,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // By default, load the inbox
   load_mailbox("inbox");
+
   // Post method
   document
     .getElementById("compose-form")
     .addEventListener("submit", ($event) => {
       sendEmail($event);
     });
-
-  selectOneElement();
 });
 
 function compose_email() {
@@ -60,7 +59,6 @@ function load_mailbox(mailbox) {
 
       emails.forEach((element) => {
         const email = document.createElement("div");
-        console.log(element.read);
         if (mailbox === "inbox") {
           email.innerHTML = `<p class='sender-recipient'>${element.sender}</p>
           <p class='subject'>${element.subject}</p>
@@ -71,10 +69,9 @@ function load_mailbox(mailbox) {
         } else {
           email.innerHTML = `<p class='sender-recipient'>${element.recipients}</p>
           <p class='subject'>${element.subject}</p>
-          <p class='timestamp'>${element.timeStamp}</p>`;
+          <p class='timestamp'>${element.timestamp}</p>`;
         }
         email.addEventListener("click", () => {
-          console.log(element.id);
           detailEmail(element.id);
 
           // Update read
@@ -130,11 +127,36 @@ function detailEmail(email_id) {
       <p><strong>To:</strong>${email.recipients}</p>
       <p><strong>Subject:</strong>${email.subject}</p>
       <p><strong>date:</strong>${email.timestamp}</p>
+      <button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>
       <hr>
       <p>${email.body}</p>`;
 
-      console.log(mailcontainer);
       container.innerHTML = "";
       container.appendChild(mailcontainer);
+
+      const replyBTN = document.getElementById("reply");
+      replyBTN.addEventListener("click", () => {
+        fetch(`/emails/${email_id}`)
+          .then((response) => response.json())
+          .then((email) => {
+            // Print email
+            console.log(email);
+
+            // Show compose view and hide other views
+            document.querySelector("#emails-view").style.display = "none";
+            document.querySelector("#compose-view").style.display = "block";
+
+            // Clear out composition fields
+            document.querySelector(
+              "#compose-recipients"
+            ).value = `${email.sender}`;
+            document.querySelector(
+              "#compose-subject"
+            ).value = `Re:${email.subject}`;
+            document.querySelector(
+              "#compose-body"
+            ).value = `${email.timestamp} ${email.sender}wrote: ${email.body}`;
+          });
+      });
     });
 }
