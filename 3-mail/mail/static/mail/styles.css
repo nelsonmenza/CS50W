@@ -2,10 +2,20 @@ textarea {
   min-height: 400px;
 }
 
-.emails {
-  color: black;
+.single-email {
+  display: flex;
+  justify-content: space-between;
+  margin-left: auto;
+  height: 30px;
+  border: 2px solid black;
+  margin-top: 10px;
 }
-.emails:hover {
-  text-decoration: none;
-  color: #000;
+
+.sender-recipient {
+  font-weight: bold;
+}
+
+.timestamp {
+  font-weight: 600;
+  color: #c5baba;
 }
