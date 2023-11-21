@@ -39,6 +39,11 @@
 
 ### 3-mail
 
+- **Description**: An email application that replicates basic email functionalities allowing users to send, receive, archive, reply, and manage emails.
+- **Technology**: HTML, CSS, Python, Django, JavaScript
+
+### 4-network
+
 - **Description**: An email project that is currently a work in progress. Details about its functionality are pending completion.
 - **Technology**: HTML, CSS, Python, Django, JavaScript
 
