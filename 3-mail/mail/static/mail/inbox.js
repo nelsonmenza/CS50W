@@ -82,6 +82,7 @@ function load_mailbox(mailbox) {
             }),
           });
         });
+
         email.classList.add("single-email");
         inbox.appendChild(email);
       });
@@ -128,6 +129,9 @@ function detailEmail(email_id) {
       <p><strong>Subject:</strong>${email.subject}</p>
       <p><strong>date:</strong>${email.timestamp}</p>
       <button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>
+      <button class="btn btn-sm btn-outline-primary" id="put-archived">${changeStatus(
+        email
+      )}</button>
       <hr>
       <p>${email.body}</p>`;
 
@@ -155,8 +159,38 @@ function detailEmail(email_id) {
             ).value = `Re:${email.subject}`;
             document.querySelector(
               "#compose-body"
-            ).value = `${email.timestamp} ${email.sender}wrote: ${email.body}`;
+            ).value = `${email.timestamp} ${email.sender} wrote: ${email.body}`;
           });
       });
+
+      const archived = document.querySelector("#put-archived");
+
+      archived.innerHTML = archived.addEventListener("click", ($event) => {
+        if ($event.target.innerHTML === "Archive") {
+          $event.target.innerText = "Unarchive";
+          fetch(`/emails/${email_id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              archived: true,
+            }),
+          });
+        } else {
+          $event.target.innerText = "Archive";
+          fetch(`/emails/${email_id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              archived: false,
+            }),
+          });
+        }
+      });
     });
+}
+
+function changeStatus(email) {
+  if (email.archived === true) {
+    return "Unarchive";
+  } else {
+    return "Archive";
+  }
 }
