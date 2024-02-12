@@ -1,30 +1,27 @@
 {% extends "network/layout.html" %}
-
 {% block body %}
-
-    <h2>Register</h2>
-
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
-
-    <form action="{% url 'register' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="email" name="email" placeholder="Email Address">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
-        </div>
-        <input class="btn btn-primary" type="submit" value="Register">
-    </form>
-
-    Already have an account? <a href="{% url 'login' %}">Log In here.</a>
-
-{% endblock %}
+    <div class="container">
+        <h2>Registration</h2>
+        {% if message %}<div>{{ message }}</div>{% endif %}
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            <input autofocus
+                   type="text"
+                   name="username"
+                   id="username"
+                   placeholder="username">
+            <input type="email" name="email" id="email" placeholder="Email Address">
+            <input type="password" name="password" id="password" placeholder="Password">
+            <input type="password"
+                   name="confirm-pass"
+                   id="confirm-pass"
+                   placeholder=" confirm password">
+            <div class="btns">
+                <button type="submit" value="Register">Register</button>
+                <a href="{% url "login" %}">
+                    <button type="button" id="login">Login</button>
+                </a>
+            </div>
+        </form>
+    </div>
+{% endblock body %}

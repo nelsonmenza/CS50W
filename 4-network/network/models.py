@@ -10,6 +10,5 @@ class Post(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-
 class Follower(models.Model):
-    
+    ...
