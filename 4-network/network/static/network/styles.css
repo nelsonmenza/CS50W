@@ -198,9 +198,7 @@ button:hover {
 }
 .links li:hover {
   cursor: pointer;
-  color: #fff;
-  border-color: #fff;
-  background: rgba(255, 255, 255, 0.15);
+  background: #fff;
 }
 .links h4 {
   color: #222;
