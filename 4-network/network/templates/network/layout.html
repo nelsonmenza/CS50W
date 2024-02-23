@@ -2,66 +2,88 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>
             {% block title %}
-                Social Network
+                Twitter Clone
             {% endblock title %}
         </title>
-        <link rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+        {% comment %} <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
         <link rel="stylesheet"
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-              crossorigin="anonymous">
+              crossorigin="anonymous"> {% endcomment %}
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+              integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer" />
         <link href="{% static 'network/styles.css' %}" rel="stylesheet">
     </head>
     <body>
         {% if user.is_authenticated %}
-            <aside class="sidebar">
-                <div class="logo">
-                    <img src="https://seeklogo.com/images/T/twitter-x-logo-0339F999CF-seeklogo.com.png?v=638264860180000000"
-                         alt="logo">
-                    <h2>Twitter Project 4</h2>
-                </div>
-                <ul class="links">
-                    <h4>Main Menu</h4>
-                    <li>
-                        <span class="material-symbols-outlined">dashboard</span>
-                        <a href="{% url "index" %}">Dashboard</a>
-                    </li>
-                    <li>
-                        <span class="material-symbols-outlined">show_chart</span>
-                        <a href="#">Revenue</a>
-                    </li>
-                    <li>
-                        <span class="material-symbols-outlined">flag</span>
-                        <a href="#">Reports</a>
-                    </li>
-                    <hr>
-                    <li>
-                        <span class="material-symbols-outlined">bar_chart</span>
-                        <a href="#">Overview</a>
-                    </li>
-                    <li>
-                        <span class="material-symbols-outlined">mail</span>
-                        <a href="#">Message</a>
-                    </li>
-                    <li>
-                        <span class="material-symbols-outlined">settings</span>
-                        <a href="#">Settings</a>
-                    </li>
-                    <li class="logout-link">
-                        <span class="material-symbols-outlined">logout</span>
-                        <a href="{% url "logout" %}">Logout</a>
-                    </li>
-                </ul>
-            </aside>
         {% else %}
+            <div class="container">
+                <div class="left">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </div>
+                <div class="right">
+                    <span class="twitter-right">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </span>
+                    <h1 class="mt-20">Happening now</h1>
+                    <h2 class="mt-20">Join today.</h2>
+                    <p class="button-group">
+                        <button class="mt-20 button-bg-white">
+                            <i class="fa-brands fa-google"></i>
+                            <span>Sign up with Google</span>
+                        </button>
+                        <button class="mt-10 button-bg-white">
+                            <i class="fa-brands fa-apple"></i>
+                            <span>Sign up with Apple</span>
+                        </button>
+                        <span class="mt-10 text-center">or</span>
+                        <button href="{% url "register" %}"
+                                class="mt-10 button-bg-blue button-create-account">Create account</button>
+                    </p>
+                    <p class="mt-10 text-muted">
+                        By signing up, you agree to the
+                        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>,
+                        including
+                        <a href="#">Cookie Use.</a>
+                    </p>
+                    <h2 class="mt-30">Already have an account?</h2>
+                    <a href="{% url "login" %}">
+                        <button class="mt-10 button-bg-transparent text-blue button-login-account">Sign in</button>
+                    </a>
+                </div>
+            </div>
+            <footer class="mt-20">
+                <a href="#">About</a>
+                <a href="#">Help Center</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Ads info</a>
+                <a href="#">Blog</a>
+                <a href="#">Status</a>
+                <a href="#">Carrers</a>
+                <a href="#">Brand Resources</a>
+                <a href="#">Advertising</a>
+                <a href="#">Marketing</a>
+                <a href="#">X for Business</a>
+                <a href="#">Developers</a>
+                <a href="#">Directory</a>
+                <a href="#">Settings</a>
+                <a href="#">&copy; 2023 X Corp.</a>
+            </footer>
+            {% block register %}
+            {% endblock register %}
         {% endif %}
-        <div class="body">
-            {% block body %}
-            {% endblock body %}
-        </div>
+        {% block body %}
+        {% endblock body %}
         <script src="{% static "network/app.js" %}"></script>
     </body>
 </html>
