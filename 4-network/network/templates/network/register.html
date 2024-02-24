@@ -9,7 +9,9 @@
             <span class="logo-twitter-modal">
                 <i class="fa-brands fa-x-twitter"></i>
             </span>
-            <div class="modal-content">
+            {% if message %}<div>{{ message }}</div>{% endif %}
+            <form class="modal-content" action="{% url "login" %}" method="post">
+                {% csrf_token %}
                 <h2 class="mt-20">Join X today</h2>
                 <p class="button-group">
                     <button class="mt-20 button-bg-white">
@@ -21,7 +23,19 @@
                         <span>Sign up with Apple</span>
                     </button>
                     <span class="mt-10 text-center">or</span>
-                    <button class="mt-10 button-bg-blue button-create-account">Create account</button>
+                    <input class="mt-10"
+                           type="text"
+                           name="username"
+                           placeholder="Phone, email, or username" />
+                    <input class="mt-10" type="email" name="email" placeholder="E-mail" />
+                    <input class="mt-10" type="Password" name="password" placeholder="Password" />
+                    <input class="mt-10"
+                           type="Password"
+                           name="confirm-pass"
+                           placeholder="Confirm password" />
+                    <button type="submit"
+                            value="Register"
+                            class="mt-10 button-bg-blue button-create-account">Create account</button>
                 </p>
                 <p class="mt-10 text-muted">
                     By signing up, you agree to the
@@ -34,7 +48,7 @@
                     <a class="text-blue button-link button-login-account"
                        href="{% url "login" %}">Sign in</a>
                 </p>
-            </div>
+            </form>
         </div>
     </div>
 {% endblock register %}

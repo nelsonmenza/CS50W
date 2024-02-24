@@ -1,6 +1,7 @@
 {% extends "network/layout.html" %}
 {% block body %}
     {% if user.is_authenticated %}
+        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
         <div class="wrapper">
             <form action="{% url "index" %}" method="post">
                 {{ form }}
