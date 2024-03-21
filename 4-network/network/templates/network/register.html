@@ -1,4 +1,4 @@
-{% extends "network/layout.html" %}
+{% extends "network/layout-auth.html" %}
 {% block register %}
     <!-- REGISTER -->
     <div id="modal-register" class="modal display-hidden">
@@ -14,14 +14,14 @@
                 {% csrf_token %}
                 <h2 class="mt-20">Join X today</h2>
                 <p class="button-group">
-                    <button class="mt-20 button-bg-white">
+                    {% comment %} <button class="mt-20 button-bg-white">
                         <i class="fa-brands fa-google"></i>
                         <span>Sign up with Google</span>
                     </button>
                     <button class="mt-10 button-bg-white">
                         <i class="fa-brands fa-apple"></i>
                         <span>Sign up with Apple</span>
-                    </button>
+                    </button> {% endcomment %}
                     <span class="mt-10 text-center">or</span>
                     <input class="mt-10"
                            type="text"

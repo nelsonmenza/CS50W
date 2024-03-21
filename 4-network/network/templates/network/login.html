@@ -1,4 +1,4 @@
-{% extends "network/layout.html" %}
+{% extends "network/layout-auth.html" %}
 {% block register %}
     <!-- LOGIN -->
     <div id="modal-login" class="modal ">
@@ -28,8 +28,8 @@
                            name="username"
                            placeholder="Phone, email, or username" />
                     <input class="mt-10" type="Password" name="password" placeholder="Password" />
-                    <button type="submit" value="Login" class="mt-10 button-bg-blue">Next</button>
-                    <button class="mt-10 button-bg-transparent">Forgot password?</button>
+                    <button type="submit" value="Login" class="mt-10 button-bg-blue">Login</button>
+                    {% comment %} <button class="mt-10 button-bg-transparent">Forgot password?</button> {% endcomment %}
                 </p>
                 <p class="mt-30 text-muted">
                     Don't have an account?

@@ -1,4 +1,4 @@
-{% extends "network/layout.html" %}
+{% extends "network/layout-auth.html" %}
 {% block body %}
     {% if user.is_authenticated %}
         <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
